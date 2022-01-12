@@ -1,7 +1,17 @@
 
 import '../styles/App.scss';
+import { useState } from "react";
+
+
 
 function App() {
+  const [numberOfErrors, setNumberOfErrors] = useState (0);
+
+  const handleError = (ev) => {
+    ev.preventDefault();
+    setNumberOfErrors(numberOfErrors+1)
+  }
+
   return (
     <div id="root">
       <div className="page">
@@ -47,7 +57,8 @@ function App() {
               />
             </form>
           </section>
-          <section className="dummy error-5">
+          <button onClick={handleError}>test</button>
+          <section className={`dummy error-${numberOfErrors}`}>
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
