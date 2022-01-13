@@ -5,12 +5,34 @@ import { useState } from "react";
 
 
 function App() {
-  const [numberOfErrors, setNumberOfErrors] = useState (0);
+  const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [lastLetter, setLastLetter] = useState('');
+  const [correctLetters, setCorrectLetters] = useState('');
+  const [incorrectLetters, setIncorrectLetters] = useState(['a', 'b', 'c']);
+  const [solution, setSolution] = useState('katakroker');
 
   const handleError = (ev) => {
     ev.preventDefault();
-    setNumberOfErrors(numberOfErrors+1)
+    setNumberOfErrors(numberOfErrors + 1)
   }
+
+  const handleLastLetter = (ev) => {
+    if (ev.target.value.match(/^[A-Za-z._\b]+$/)) {
+      //this.setState({hasError:false});
+      setLastLetter(ev.currentTarget.value);
+    }
+    /* else{
+        this.setState({hasError:true});
+    } */
+
+  }
+
+  /* Cuando el usuario introduzca una letra:
+  1- Mirar si esta repetida
+  2- Mirar si es acertada o fallada
+  3.Fallada- Añadir al array de falladas, pintarla y pintar muñeco
+  3.Acertada- Añadir al array de acertadas y pintar en solución 
+  4- Reset vaciar arrays? borrar muñeco y refrescar para conseguir nueva palabra? */
 
   return (
     <div id="root">
@@ -38,9 +60,9 @@ function App() {
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
               <ul className="letters">
-                <li className="letter">f</li>
-                <li className="letter">q</li>
-                <li className="letter">h</li>
+                <li className="letter">{incorrectLetters[0]}</li>
+                <li className="letter">{incorrectLetters[1]}</li>
+                <li className="letter">{incorrectLetters[2]}</li>
                 <li className="letter">p</li>
                 <li className="letter">x</li>
               </ul>
@@ -54,6 +76,8 @@ function App() {
                 type="text"
                 name="last-letter"
                 id="last-letter"
+                value={lastLetter}
+                onChange={handleLastLetter}
               />
             </form>
           </section>
