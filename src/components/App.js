@@ -10,6 +10,9 @@ function App() {
   const [correctLetters, setCorrectLetters] = useState('');
   const [incorrectLetters, setIncorrectLetters] = useState(['a', 'b', 'c']);
   const [solution, setSolution] = useState('katakroker');
+  const [userLetters, setUserLetter] = useState("");
+  const solutionArray = solution.split("")
+  const finalSolution = solutionArray.map( eachLetter => <li className='letter'>{eachLetter}</li>)
 
   const handleError = (ev) => {
     ev.preventDefault();
@@ -17,9 +20,10 @@ function App() {
   }
 
   const handleLastLetter = (ev) => {
-    if (ev.target.value.match(/^[A-Za-z._\b]+$/)) {
+    if (ev.target.value.match(/^[A-Za-zñÑ._\b]+$/)) {
       //this.setState({hasError:false});
       setLastLetter(ev.currentTarget.value);
+      setUserLetter([...lastLetter, ])
     }
     /* else{
         this.setState({hasError:true});
@@ -27,6 +31,10 @@ function App() {
 
   }
 
+
+  const handleCheckLetter = (ev) => {
+
+  }
   /* Cuando el usuario introduzca una letra:
   1- Mirar si esta repetida
   2- Mirar si es acertada o fallada
@@ -45,7 +53,9 @@ function App() {
             <div className="solution">
               <h2 className="title">Solución:</h2>
               <ul className="letters">
-                <li className="letter">k</li>
+                {finalSolution}
+
+                {/* <li className="letter">k</li>
                 <li className="letter">a</li>
                 <li className="letter"></li>
                 <li className="letter">a</li>
@@ -54,7 +64,7 @@ function App() {
                 <li className="letter"></li>
                 <li className="letter">k</li>
                 <li className="letter">e</li>
-                <li className="letter">r</li>
+                <li className="letter">r</li> */}
               </ul>
             </div>
             <div className="error">
@@ -76,7 +86,7 @@ function App() {
                 type="text"
                 name="last-letter"
                 id="last-letter"
-                value={lastLetter}
+                // value={lastLetter}
                 onChange={handleLastLetter}
               />
             </form>
