@@ -5,38 +5,50 @@ import { useState } from "react";
 
 
 function App() {
-  const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [word, setWord] = useState('katakroker');
+  const [userLetters, setUserLetters] = useState([]);
   const [lastLetter, setLastLetter] = useState();
-  const [correctLetters, setCorrectLetters] = useState('');
-  const [incorrectLetters, setIncorrectLetters] = useState(['']);
-  const [solution, setSolution] = useState('katakroker');
-  const [userLetter, setUserLetter] = useState(['']);
-  const solutionArray = solution.split('')
-  const finalSolution = solutionArray.map(eachLetter => <li className='letter'>{eachLetter}</li>)
 
-  const handleError = (ev) => {
-    ev.preventDefault();
-    setNumberOfErrors(numberOfErrors + 1)
-  }
+  const wordLetters = word.split('');
+
+  const [numberOfErrors, setNumberOfErrors] = useState(0);
+  const [correctLetters, setCorrectLetters] = useState(['']);
+  const [incorrectLetters, setIncorrectLetters] = useState(['']);
+  const [solution, setSolution] = useState('');
+
+
+  // const finalSolution = correctLetters.map(eachLetter => <li className='letter'>{eachLetter}</li>)
+
+  // const handleError = (ev) => {
+  //   ev.preventDefault();
+  //   setNumberOfErrors(numberOfErrors + 1)
+  // }
 
   const handleLastLetter = (ev) => {
-    setLastLetter(...ev.currentTarget.value);
-    setUserLetter([...userLetter, ev.currentTarget.value])
-    if (ev.target.value.match(/^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]?$/)) {
-
-
+    if (ev.target.value.match(/^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]/) && !userLetters.includes(ev.target.value)) {
+      setLastLetter(ev.currentTarget.value);
+      setUserLetters([...userLetters, ev.currentTarget.value]);
     }
-    handleCheckLetter(ev);
+  }
+  const renderSolutionLetters = () => {
+    return wordLetters.map(eachLetter => {
+      if (userLetters.includes(eachLetter)) {
+        return <li className='letter'>{eachLetter}</li>
+      } else {
+        return <li className='letter'></li>
+      }
+    })
   }
 
-  const handleCheckLetter = (ev) => {
-    if (finalSolution.includes(lastLetter)) {
-      setCorrectLetters([...correctLetters, lastLetter,])
-    } else {
-      setIncorrectLetters([...incorrectLetters, lastLetter,])
-    }
-
+  const renderErrorLetters = () => {
+    return userLetters.map(eachLetter => {
+      if (!wordLetters.includes(eachLetter)) {
+        return <li className='letter'>{eachLetter}</li>
+      }
+    })
   }
+
+
   /* Cuando el usuario introduzca una letra:
   1- Mirar si esta repetida
   2- Mirar si es acertada o fallada
@@ -55,13 +67,14 @@ function App() {
             <div className="solution">
               <h2 className="title">Solución:</h2>
               <ul className="letters">
-                {finalSolution}
+                {renderSolutionLetters()}
               </ul>
             </div>
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
               <ul className="letters">
-                <li className="letter">{incorrectLetters[0]}</li>
+                {/* <li className="letter">{incorrectLetters[0]}</li> */}
+                {renderErrorLetters()}
               </ul>
             </div>
             <form className="form">
@@ -78,7 +91,7 @@ function App() {
               />
             </form>
           </section>
-          <button onClick={handleError}>test</button>
+          {/* <button onClick={handleError}>test</button> */}
           <section className={`dummy error-${numberOfErrors}`}>
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
@@ -96,7 +109,7 @@ function App() {
           </section>
         </main>
       </div>
-    </div>
+    </div >
   );
 }
 
