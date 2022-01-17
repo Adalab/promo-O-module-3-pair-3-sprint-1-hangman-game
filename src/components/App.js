@@ -11,19 +11,6 @@ function App() {
 
   const wordLetters = word.split('');
 
-  const [numberOfErrors, setNumberOfErrors] = useState(0);
-  const [correctLetters, setCorrectLetters] = useState(['']);
-  const [incorrectLetters, setIncorrectLetters] = useState(['']);
-  const [solution, setSolution] = useState('');
-
-
-  // const finalSolution = correctLetters.map(eachLetter => <li className='letter'>{eachLetter}</li>)
-
-  // const handleError = (ev) => {
-  //   ev.preventDefault();
-  //   setNumberOfErrors(numberOfErrors + 1)
-  // }
-
   const handleLastLetter = (ev) => {
     if (ev.target.value.match(/^[a-zA-ZáäéëíïóöúüÁÄÉËÍÏÓÖÚÜñÑ]/) && !userLetters.includes(ev.target.value)) {
       setLastLetter(ev.currentTarget.value);
@@ -40,14 +27,6 @@ function App() {
     })
   }
 
-  // const renderErrorLetters = () => {
-  //   return userLetters.map(eachLetter => {
-  //     if (!wordLetters.includes(eachLetter)) {
-  //       return <li className='letter'>{eachLetter}</li>
-  //     }
-  //   })
-  // }
-
   const renderErrorLetters = () => {
     return (
       userLetters
@@ -60,14 +39,11 @@ function App() {
     )
   }
 
-
-
-  /* Cuando el usuario introduzca una letra:
-  1- Mirar si esta repetida
-  2- Mirar si es acertada o fallada
-  3.Fallada- Añadir al array de falladas, pintarla y pintar muñeco
-  3.Acertada- Añadir al array de acertadas y pintar en solución 
-  4- Reset vaciar arrays? borrar muñeco y refrescar para conseguir nueva palabra? */
+  const renderDummy = () => {
+    return userLetters.filter(eachLetter => {
+      return !wordLetters.includes(eachLetter);
+    }).length;
+  }
 
   return (
     <div id="root">
@@ -86,7 +62,6 @@ function App() {
             <div className="error">
               <h2 className="title">Letras falladas:</h2>
               <ul className="letters">
-                {/* <li className="letter">{incorrectLetters[0]}</li> */}
                 {renderErrorLetters()}
               </ul>
             </div>
@@ -105,7 +80,7 @@ function App() {
             </form>
           </section>
           {/* <button onClick={handleError}>test</button> */}
-          <section className={`dummy error-${numberOfErrors}`}>
+          <section className={`dummy error-${renderDummy()}`}>
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
