@@ -40,13 +40,26 @@ function App() {
     })
   }
 
+  // const renderErrorLetters = () => {
+  //   return userLetters.map(eachLetter => {
+  //     if (!wordLetters.includes(eachLetter)) {
+  //       return <li className='letter'>{eachLetter}</li>
+  //     }
+  //   })
+  // }
+
   const renderErrorLetters = () => {
-    return userLetters.map(eachLetter => {
-      if (!wordLetters.includes(eachLetter)) {
-        return <li className='letter'>{eachLetter}</li>
-      }
-    })
+    return (
+      userLetters
+        .filter(eachLetter => {
+          return !wordLetters.includes(eachLetter);
+        })
+        .map(eachLetter => {
+          return <li className='letter'>{eachLetter}</li>;
+        })
+    )
   }
+
 
 
   /* Cuando el usuario introduzca una letra:
